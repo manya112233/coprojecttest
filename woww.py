@@ -7,7 +7,6 @@ def hex_with_bits(num):
      n="0x000"+hex(num)[2:]
      return n
 def binary_to_int(binary_string):
-   
     return int(binary_string, 2)
 
 def Imm(n,b):
@@ -34,11 +33,20 @@ def sign_ext(bits, num_bits):
     return '1' * (num_bits - len(bits)) + bits
 
 nums = list()
-nomber = 65536
+largest_with_one = 65536
 for x in range(32):
-     nums.append(nomber)
-     nomber = nomber + 4
+     nums.append(largest_with_one)
+     largest_with_one = largest_with_one + 4
 mem =dict.fromkeys(nums,0)
+
+def bin_with_bits(num, num_bits):
+    n="0b"+Imm(num,num_bits)
+    return n
+def hex_with_bits(num):
+     n="0x000"+hex(num)[2:]
+     return n
+def binary_to_int(binary_string):
+    return int(binary_string, 2)
 
 def two_c_to_decimal(binary):
     if binary[0] == '1':
