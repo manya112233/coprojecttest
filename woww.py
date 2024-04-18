@@ -205,7 +205,7 @@ def Rtype(line,op,pc):
     print("Enetring r type ")
     if line[17:20]=="000":
         if line[0:7]=="0000000":  
-            print("aa")                  #add
+            print("sa")                  #add
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
@@ -214,7 +214,7 @@ def Rtype(line,op,pc):
             return pc[0]+4
 
         elif line[0:7]=="0100000":     
-            print("ba")           
+            print("re")           
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25] 
@@ -222,14 +222,14 @@ def Rtype(line,op,pc):
             return pc[0]+4
 
     elif line[17:20]=="001":
-            print("ca")
+            print("ga")
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
             reg_vals[dreg]=sll(reg_vals[sreg1],reg_vals[sreg2])
             return pc[0]+4
     elif line[17:20]=="010":
-            print("da")
+            print("ma")
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
@@ -243,7 +243,7 @@ def Rtype(line,op,pc):
             return pc[0]+4
 
     elif line[17:20]=="011":
-            print("ea")
+            print("pa")
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
@@ -251,7 +251,7 @@ def Rtype(line,op,pc):
                 reg_vals[dreg]=1
             return pc[0]+4
     elif line[17:20]=="100":
-            print("fa")
+            print("da")
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
@@ -259,21 +259,21 @@ def Rtype(line,op,pc):
             return pc[0]+4
 
     elif line[17:20]=="101":
-            print("ga")
+            print("ni")
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
             reg_vals[dreg]=srl(reg_vals[sreg1],reg_vals[sreg2])
             return pc[0]+4
     elif line[17:20]=="110":
-            print("ha")
+            print("sa")
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
             reg_vals[dreg]=reg_vals[sreg1]|reg_vals[sreg2]
             return pc[0]+4
     elif line[17:20]=="111":
-            print("ia")
+            print("za")
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
