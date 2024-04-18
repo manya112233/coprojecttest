@@ -1,5 +1,5 @@
 class Processor:
-    def _init_(self):
+    def __init__(self):
         self.pc = 0
         self.registers = [0] * 32
         self.memory = [0] * (2**20)  # Assuming a memory size of 1MB
@@ -225,5 +225,5 @@ def main():
         if mem != 0:
             print(f"    {i}: {mem}")
 
-if _name_ == "_main_":
-    main()
+if __name__ == "__main__":
+    main()
