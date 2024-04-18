@@ -394,7 +394,7 @@ def Stype(line,output,pc):
 
  
 
-def instructions(line,output,pc):
+def intruc(line,output,pc):
     print("Enetring intruction ")
     op = line[-7:]
     if op == "0110011":
@@ -426,7 +426,7 @@ while True :
     if (final[pc[0]]=="00000000000000000000000001100011") :
         break
     x=final[pc[0]]
-    pc[0] = instructions(x,op,pc)
+    pc[0] = intruc(x,op,pc)
     optemp=bin_with_bits(pc[0],32)+" "+bin_with_bits(reg_vals["00000"],32)+" "+bin_with_bits(reg_vals["00001"],32)+" "+bin_with_bits(reg_vals["00010"],32)+" "+bin_with_bits(reg_vals["00011"],32)+" "+bin_with_bits(reg_vals["00100"],32)+" "+bin_with_bits(reg_vals["00101"],32)+" "+bin_with_bits(reg_vals["00110"],32)+" "+bin_with_bits(reg_vals["00111"],32)+" "+bin_with_bits(reg_vals["01000"],32)+" "+bin_with_bits(reg_vals["01001"],32)+" "+bin_with_bits(reg_vals["01010"],32)+" "+bin_with_bits(reg_vals["01011"],32)+" "+bin_with_bits(reg_vals["01100"],32)+" "+bin_with_bits(reg_vals["01101"],32)+" "+bin_with_bits(reg_vals["01110"],32)+" "+bin_with_bits(reg_vals["01111"],32)+" "+bin_with_bits(reg_vals["10000"],32)+" "+bin_with_bits(reg_vals["10001"],32)+" "+bin_with_bits(reg_vals["10010"],32)+" "+bin_with_bits(reg_vals["10011"],32)+" "+bin_with_bits(reg_vals["10100"],32)+" "+bin_with_bits(reg_vals["10101"],32)+" "+bin_with_bits(reg_vals["10110"],32)+" "+bin_with_bits(reg_vals["10111"],32)+" "+bin_with_bits(reg_vals["11000"],32)+" "+bin_with_bits(reg_vals["11001"],32)+" "+bin_with_bits(reg_vals["11010"],32)+" "+bin_with_bits(reg_vals["11011"],32)+" "+bin_with_bits(reg_vals["11100"],32)+" "+bin_with_bits(reg_vals["11101"],32)+" "+bin_with_bits(reg_vals["11110"],32)+" "+bin_with_bits(reg_vals["11111"],32)+" "+"\n"
     op.append(optemp)
 f1 = open("output_2.txt","a")
