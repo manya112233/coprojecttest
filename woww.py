@@ -1,7 +1,7 @@
 fn = open("output_2.txt","w")
 fn.close()
 def bin_with_bits(num, num_bits):
-    n="0b"+Immediate(num,num_bits)
+    n="0b"+Imm(num,num_bits)
     return n
 def hex_with_bits(num):
      n="0x000"+hex(num)[2:]
@@ -10,7 +10,7 @@ def binary_to_int(binary_string):
    
     return int(binary_string, 2)
 
-def Immediate(n,b):
+def Imm(n,b):
     if n >= 0:
         binary = bin(n)[2:]
     else:
@@ -26,7 +26,7 @@ def Immediate(n,b):
         
     return binary
 
-def sext(bits, num_bits):
+def sign_ext(bits, num_bits):
     if len(bits) >= num_bits:
         return bits
     if bits[0] == '0':
@@ -40,10 +40,10 @@ for x in range(32):
      nomber = nomber + 4
 mem =dict.fromkeys(nums,0)
 
-def twos_complement_to_decimal(binary):
+def two_c_to_decimal(binary):
     if binary[0] == '1':
         inverted_binary = ''.join('1' if bit == '0' else '0' for bit in binary)
-        decimal_value = -(int(inverted_binary, 2) + 1)  
+        decimal_value = -(int(inverted_binary, 2) + 1)
     else:
         decimal_value = int(binary, 2)
     return decimal_value
@@ -187,13 +187,13 @@ reg_vals={
 
 def sll(rs1,rs2):
 
-    amount = binary_to_int(Immediate(rs2,32))
+    amount = binary_to_int(Imm(rs2,32))
     r = rs1 << amount
     return r
 
 def srl(rs1,rs2):
 
-    amount = binary_to_int(Immediate(rs2,32))
+    amount = binary_to_int(Imm(rs2,32))
     r = rs1 >> amount
     return r
 
@@ -289,25 +289,25 @@ def Btype(line, op, pc):
     print(reg_vals[rs1])
     print(reg_vals[rs2])
     print(func)
-    print(twos_complement_to_decimal(imm))
+    print(two_c_to_decimal(imm))
     if func == "000":
         if (reg_vals[rs1] == reg_vals[rs2]):
-            return pc[0] + twos_complement_to_decimal(imm)
+            return pc[0] + two_c_to_decimal(imm)
     elif func == "001":
         if reg_vals[rs1] != reg_vals[rs2]:
-            return pc[0] + twos_complement_to_decimal(imm)
+            return pc[0] + two_c_to_decimal(imm)
     elif func == "100":
         if reg_vals[rs1] < reg_vals[rs2]:
-            return pc[0] + twos_complement_to_decimal(imm)
+            return pc[0] + two_c_to_decimal(imm)
     elif func == "101":
         if reg_vals[rs1] >= reg_vals[rs2]:
-            return pc[0] + twos_complement_to_decimal(imm)
+            return pc[0] + two_c_to_decimal(imm)
     elif func == "110":
         if reg_vals[rs1] < reg_vals[rs2]:
-            return pc[0] + twos_complement_to_decimal(imm)
+            return pc[0] + two_c_to_decimal(imm)
     elif func == "111":
         if reg_vals[rs1] >= reg_vals[rs2]:
-            return pc[0] + twos_complement_to_decimal(imm)
+            return pc[0] + two_c_to_decimal(imm)
     return pc[0] + 4
 
 
@@ -319,9 +319,9 @@ def Jtype(line,output,pc):
     print(pc[0])
     reg_vals[rd]=pc[0]+4
     imm1=imm+"0"
-    imm12=sext(imm1,32)
+    imm12=sign_ext(imm1,32)
     print(imm12)
-    val=twos_complement_to_decimal(imm12)
+    val=two_c_to_decimal(imm12)
     print(val)
     pc[0]=pc[0]+val
     print("hello",pc)
@@ -333,18 +333,18 @@ def Jtype(line,output,pc):
 def Utype(line,output,pc):
     imm=line[0:20]+"000000000000"
     print(imm)
-    print(twos_complement_to_decimal(imm))
+    print(two_c_to_decimal(imm))
     rsd=line[20:25]
     print(rsd)
     print(reg_vals[rsd])
     print(pc[0])
     print("entering U type")
     if(line[25:32]=="0110111"):
-          reg_vals[rsd]=twos_complement_to_decimal((imm))
+          reg_vals[rsd]=two_c_to_decimal((imm))
     elif(line[25:32]=="0010111"):
-          reg_vals[rsd]=pc[0]+twos_complement_to_decimal((imm))
+          reg_vals[rsd]=pc[0]+two_c_to_decimal((imm))
           print(pc[0])
-          print(twos_complement_to_decimal((imm)))
+          print(two_c_to_decimal((imm)))
           print(reg_vals[rsd])
     return pc[0]+4
 
@@ -355,7 +355,7 @@ def Itype(line,output,pc):
     rd = line[-12:-7]
     func = line[-15:-12]
     rs = line[-20:-15]
-    imm = twos_complement_to_decimal(line[-32:-20])
+    imm = two_c_to_decimal(line[-32:-20])
     print(imm)
     print(reg_vals[rd])
     ans = pc[0]
@@ -379,7 +379,7 @@ def Itype(line,output,pc):
           
 def Stype(line,output,pc):
      imm=line[0:7]+line[20:25]
-     immd=twos_complement_to_decimal((imm))
+     immd=two_c_to_decimal((imm))
      rs1=line[12:17]
      rs2=line[7:12]
      print(rs1)
@@ -435,7 +435,6 @@ f1.write(optemp)
 memory = []
 for i in range(65536,65664,4):
      no = hex_with_bits(i)+":"+bin_with_bits(mem[i],32)+"\n"
-     print
      memory.append(no)
 print(mem)
 f1.writelines(memory)
