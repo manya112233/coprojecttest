@@ -1,18 +1,33 @@
-fn = open("output_2.txt","w")
+fn = open("output.txt","w")
 fn.close()
 
-
-def Imm(n, b):
-
-    binary = bin(n & ((1 << n.bit_length()) - 1))[2:] if n < 0 else bin(n)[2:]
+def Imm(n,b):
+    if n >= 0:
+        binary = bin(n)[2:]
+    else:
+        binary = bin(n & int("1" * (n.bit_length() + 1), 2))[2:]
 
     if len(binary) < b:
-        padding = '0' if n >= 0 else '1'
-        binary = padding * (b - len(binary)) + binary
+        if n >= 0:
+            binary = '0' * (b - len(binary)) + binary
+        else:                                                                       
+            binary = '1' * (b - len(binary)) + binary
     elif len(binary) > b:
         binary = binary[-b:]
-    
+
     return binary
+
+# def Imm(n, b):
+
+#     binary = bin(n & ((1 << n.bit_length()) - 1))[2:] if n < 0 else bin(n)[2:]
+
+#     if len(binary) < b:
+#         padding = '0' if n >= 0 else '1'
+#         binary = padding * (b - len(binary)) + binary
+#     elif len(binary) > b:
+#         binary = binary[-b:]
+    
+#     return binary
 
 def sign_ext(bits, num_bits):
     if len(bits) >= num_bits:
@@ -44,7 +59,7 @@ def complement_to_decimal(binary):
     else:
         decimal_value = int(binary, 2)
     return decimal_value
-     
+
 register_encoding = {
     "x0": "00000",
     "zero": "00000",
@@ -184,24 +199,21 @@ r_v={
 
 def sll(rs1,rs2):
 
-    amount = binary_to_int(Imm(rs2,32))
+    amount = binary_to_int(rs2)
     r = rs1 << amount
     return r
 
 def srl(rs1,rs2):
 
-    amount = binary_to_int(Imm(rs2,32))
+    amount = binary_to_int(rs2)
     r = rs1 >> amount
     return r
 
 
-
-
-
-def Rtype(line,op,pc):
+def Rtype(line,output,pc):
     print("Enetring r type: ")
     if line[17:20]=="000":
-        if line[0:7]=="0000000":                 #add
+        if line[0:7]=="0000000":                 
             sreg1=line[12:17]
             sreg2=line[7:12]
             dreg=line[20:25]
@@ -268,7 +280,8 @@ def Rtype(line,op,pc):
             r_v[dreg]=r_v[sreg1]&r_v[sreg2]
             return pc[0]+4
 
-def Btype(line, op, pc):
+
+def Btype(line, output, pc):
     print("Entering b type: ")
     imm = line[0] + line[24] + line[1:7] + line[20:24]+"0"
     func = line[17:20]
@@ -314,8 +327,6 @@ def Jtype(line,output,pc):
     pc[0]=pc[0]+val
     print(pc)
     return pc[0]
-    
-    
 
 
 def Utype(line,output,pc):
@@ -366,10 +377,10 @@ def Itype(line,output,pc):
              
           
 def Stype(line,output,pc):
-     imm=line[0:7]+line[20:25]
+     imm=line[11:0]
      immd=complement_to_decimal((imm))
-     rs1=line[12:17]
-     rs2=line[7:12]
+     rs1=line[19:15]
+     rs2=line[24:20]
      print(rs1)
      print(rs2)
      print(immd)
@@ -377,11 +388,9 @@ def Stype(line,output,pc):
      val=r_v[rs1]+immd
      mem[val]=r_v[rs2]
      print(r_v[rs2])
-     print(final)
      return pc[0]+4
 
  
-
 def intruc(line,output,pc):
     print("Going to Instruction:- ")
     op = line[-7:]
