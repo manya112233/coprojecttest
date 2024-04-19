@@ -377,7 +377,7 @@ def Itype(line,output,pc):
              
           
 def Stype(line,output,pc):
-     imm=line[0:6]+line[20:25]
+     imm=line[0:7]+line[20:25]
      immd=complement_to_decimal((imm))
      rs1=line[12:17]
      rs2=line[7:12]
