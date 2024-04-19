@@ -17,18 +17,6 @@ def Imm(n,b):
 
     return binary
 
-# def Imm(n, b):
-
-#     binary = bin(n & ((1 << n.bit_length()) - 1))[2:] if n < 0 else bin(n)[2:]
-
-#     if len(binary) < b:
-#         padding = '0' if n >= 0 else '1'
-#         binary = padding * (b - len(binary)) + binary
-#     elif len(binary) > b:
-#         binary = binary[-b:]
-    
-#     return binary
-
 def sign_ext(bits, num_bits):
     if len(bits) >= num_bits:
         return bits
@@ -69,6 +57,9 @@ register_encoding = {
     "r1": "00001",
     "x2": "00010",
     "sp": "00010",
+    
+    
+    
     "r2": "00010",
     "x3": "00011",
     "gp": "00011",
